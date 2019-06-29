@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  # postgres:
+  #   image: postgres:9.6.14
+  #   volumes:
+  #     - postgres:/var/lib/postgresql
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: pguser
+  #     POSTGRES_PASSWORD: pguser
+  #     POSTGRES_DB: pgdb
+  mysql:
+    image: mariadb
+    env_file:
+      - ./env/local.env
+    volumes:
+      - mysql:/var/lib/mysql
+
+  fauna:
+    build:
+      context: ./fauna
+    # volumes:
+    #   - ./fauna/app:/fauna/app
+      # - fauna_config:/fauna/config
+      # - fauna_db:/fauna/db
+      # - /fauna/config/database.yml
+    # links:
+      # - postgres
+    env_file:
+      - ./env/local.env
+    environment:
+      PORT: 3121
+    # command: >
+    #   sh -c "sleep 5 && bin/rails s -b 0.0.0.0"
+
+  php-fpm-wp:
+    build:
+      context: ./php-fpm-wp
+    links:
+      - mysql
+    env_file:
+      - ./env/local.env
+    volumes:
+      - wp-app:/wp-app
+      - ./php-fpm-wp/typecore:/wp-app/wp-content/themes/typecore
+    command: >
+      sh -c "sleep 5 && sh /wp-app/wp-config.sh && php-fpm"
+
+  router:
+    image: nginx:stable-alpine
+    env_file:
+      - ./env/local.env
+    ports:
+      - "80:80"
+    volumes:
+      - ./router/nginx.conf:/etc/nginx/nginx.conf
+      - wp-app:/wp-app
+      - ./tmp/log:/log
+      # - ./code:/code
+    links:
+      - fauna
+      - php-fpm-wp
+
+volumes:
+  postgres:
+  mysql:
+  wp-app:
+  # fauna_config:
+  # fauna_db:
