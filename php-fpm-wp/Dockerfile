@@ -27,4 +27,4 @@ WORKDIR /wp-app
 COPY ./typecore /wp-app/wp-content/themes/typecore
 
 # config
-COPY wp-config.sh .
+COPY wp-config.sh /wp-bin/wp-config.sh

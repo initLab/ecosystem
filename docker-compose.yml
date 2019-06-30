@@ -32,6 +32,7 @@ services:
       - ./env/local.env
     environment:
       PORT: 3121
+      RAILS_RELATIVE_URL_ROOT: /fauna
     # command: >
     #   sh -c "sleep 5 && bin/rails s -b 0.0.0.0"
 
@@ -46,7 +47,7 @@ services:
       - wp-app:/wp-app
       - ./php-fpm-wp/typecore:/wp-app/wp-content/themes/typecore
     command: >
-      sh -c "sleep 5 && sh /wp-app/wp-config.sh && php-fpm"
+      sh -c "sleep 5 && sh /wp-bin/wp-config.sh && php-fpm"
 
   router:
     image: nginx:stable-alpine
