@@ -28,6 +28,6 @@ docker-compose up --build
 - to add/remove/change plugins edit the `php-fpm-wp/wp-config.sh`
 
 ## fauna.initlab.org
-- init Lab Management Automation System (http://localhost/fauna)
+- init Lab Management Automation System (http://localhost:3000)
 - https://github.com/initLab/fauna
 - built on top of `ruby:2.6.3-stretch`

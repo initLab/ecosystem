@@ -1,7 +1,7 @@
 [submodule "fauna"]
 	path = fauna
-	url = git@github.com:alex-milanov/fauna.git
-	branch = feature/dockerization
+	url = git@github.com:initLab/fauna.git
+	branch = master
 [submodule "php-fpm-wp/typecore"]
 	path = php-fpm-wp/typecore
 	url = git@github.com:initLab/typecore.git
